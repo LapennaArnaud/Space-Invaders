@@ -16,12 +16,14 @@ public class Vaisseau {
 	public Vaisseau(int ptnDeStructureMAX,int ptnDeBouclierMAX){
 		this.ptnDeStructureMAX=ptnDeStructureMAX;
 		this.ptnDeBouclierMAX=ptnDeBouclierMAX;
+		ptnDeStructure=ptnDeStructureMAX;
+		ptnDeBouclier=ptnDeBouclierMAX;
 	}
 	
 	public void ajoutArme(Arme arme){
 		if (listeArmesVaisseau!= null){
 			if (listeArmesVaisseau.size()<3 ){
-				listeArmesVaisseau.add(arme);
+				listeArmesVaisseau.add(arme); // faire attention car ici ont peut lui ajouter des armes qui ne sont pas dans l'armurerie ( correction future)
 			}else{
 				System.out.println("ajout arme impossible : il n'y a plus de place sur le vaisseau");
 			}
@@ -42,6 +44,7 @@ public class Vaisseau {
 	public void afficherLesArmes(){ // affiche toutes les armes présente sur le vaisseau avec le toString de  la classe Arme
 		if(listeArmesVaisseau!=null){
 			for(Arme arme : listeArmesVaisseau){
+				System.out.printf("Arme n°"+(listeArmesVaisseau.indexOf(arme)+1)+": ");
 				System.out.println(arme.toString());
 			}
 		}

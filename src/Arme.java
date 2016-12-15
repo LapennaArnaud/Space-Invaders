@@ -30,7 +30,7 @@ public class Arme {
 	@Override
 	public String toString(){  // permet d'afficher les infos de l'arme ( utilie pour la classe vaisseau)
 		String infoArme="";
-		infoArme=nom+" type dégat: "+typeDegat+" dégat MIN MAX : ("+degatMIN+";"+degatMAX+")";
+		infoArme=nom+" type dégat: "+typeDegat+" dégat MIN MAX: ("+degatMIN+";"+degatMAX+")";
 		return infoArme;
 	}
 

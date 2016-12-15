@@ -26,8 +26,18 @@ public class SpaceInvaders {
 		System.out.println("\nListe des armes de l'armurerie :");
 		armurerie.afficherLesArmes();
 		
+		//on créer un vaisseau spécifique et on l'affecte à un joueur
 		Vaisseau vaisseuDeOuf = new  Vaisseau(1800, 680);
 		spaceInvaders.listeJoueurs.get(1).setVaisseau(vaisseuDeOuf);
+		
+		//on ajoute des armes aux vaisseaux... ( un vaisseau doit-il avoir une arme de base ?)
+		spaceInvaders.listeJoueurs.get(0).getVaisseau().ajoutArme(armurerie.getListeArmes().get(1));
+		spaceInvaders.listeJoueurs.get(1).getVaisseau().ajoutArme(armurerie.getListeArmes().get(2));
+		
+		spaceInvaders.listeJoueurs.get(2).getVaisseau().ajoutArme(armurerie.getListeArmes().get(0));
+		spaceInvaders.listeJoueurs.get(2).getVaisseau().ajoutArme(armurerie.getListeArmes().get(1));
+
+
 		
 		//affichage des propriétés du vaisseau de chaque joueurs :
 		System.out.println("\nAffichage des propriétés du vaisseau de chaque joueurs :");
@@ -36,6 +46,7 @@ public class SpaceInvaders {
 			System.out.println(j.toString());
 			System.out.println("son vaisseau :");
 			System.out.println(j.getVaisseau().toString());
+			j.getVaisseau().afficherLesArmes(); // on appelle la fonction qui affiche les armes, elle n'est pas comprise dans le toString du vaisseau car elle printLn directement sans renurn un string ( non demandé) 
 			System.out.println("\n");
 		}
 		
