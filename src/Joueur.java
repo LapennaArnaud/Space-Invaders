@@ -6,8 +6,7 @@ public class Joueur {
 	private String pseudo;
 	private Vaisseau vaisseau;
 	
-	public Joueur(String nom,String prenom,String pseudo)
-	{
+	public Joueur(String nom,String prenom,String pseudo){
 		this.nom=formatage(nom);
 		this.prenom=formatage(prenom);
 		this.pseudo=pseudo;

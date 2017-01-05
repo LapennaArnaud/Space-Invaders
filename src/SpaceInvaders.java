@@ -56,6 +56,20 @@ public class SpaceInvaders {
 		// il y a aussi plusieurs toString que j'ai codé et dont je n'ai pas eu le temps d'utiliser dans le main.
 		///////
 		
+		// test Armurerie Exception
+		try {
+			Arme armeTest = new Arme("rockcat", 8, 88, Type.Explosif);
+		    if(armurerie.contientArme(armeTest))
+		    {
+		    	spaceInvaders.listeJoueurs.get(2).getVaisseau().ajoutArme(armeTest);
+		    }
+		    else
+		    {
+		    	throw new ArmurerieException();
+		    }
+		} catch(ArmurerieException e){
+			e.printStackTrace();
+		}
 		
 		
 	}

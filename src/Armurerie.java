@@ -53,4 +53,8 @@ public class Armurerie {
 		
 	}
 	
+	public boolean contientArme(Arme a){
+		return (listeArmes.contains(a));
+	}
+	
 }
