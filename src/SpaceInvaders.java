@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class SpaceInvaders {
 
@@ -55,7 +56,29 @@ public class SpaceInvaders {
 		 * 
 		 */
 		
+		System.out.println("#############################################################################");
 		
+		int nbTour = 1;
+		while(!spaceInvaders.listeJoueurs.get(0).getVaisseau().estDetruit() && spaceInvaders.listeVaisseauEnnemis.size()>0){
+			System.out.format("%n==========================Tour %d=========================%n",nbTour);
+			spaceInvaders.tour();
+			nbTour++;
+		}
+			
+		if(spaceInvaders.listeJoueurs.get(0).getVaisseau().estDetruit()) // à l'arret des tours nous décrit si le joueur à gagner ou perdu
+		{
+			System.out.println("Le joueur a perdu");
+		}
+		else
+		{
+			System.out.println("Le joueur a gagné");
+		}
+		
+		/*
+		 * il y a un problème sur le jeu qui boucle de trop avec la 
+		 * régen des bouclier il faut que je regarde si cela provient de la 
+		 * position des vaisseaux ou des dégat des armes mais je n'ai plus le temps.
+		 */
 		
 	}
 	
@@ -80,18 +103,64 @@ public class SpaceInvaders {
 	}
 	
 	public void tour(){
-		for(Vaisseau ennemie: listeVaisseauEnnemis){
-			ennemie.attaque(listeJoueurs.get(0).getVaisseau());//on attaque le seul joueur du jeu ici
+		
+		for(Vaisseau ennemie : listeVaisseauEnnemis){ // utilisation des comptétences des vaisseaux
+			if(ennemie instanceof IAptitude){
+				listeJoueurs.get(0).getVaisseau().repartirDegat(((IAptitude)ennemie).utilise(listeVaisseauEnnemis));
+			}
 		}
-		listeJoueurs.get(0).getVaisseau().attaque(listeVaisseauEnnemis.get((int)(Math.random()*(listeVaisseauEnnemis.size()))));
+		
+		suppressionEnnemiesMort(listeVaisseauEnnemis); //Suppresion des morts ( le assault peut mourir de son pouvoir juste avant)
+
+		
+		int probabiliteTir = 1;
+		boolean aTire = false;
+		for(Vaisseau ennemie : listeVaisseauEnnemis){
+			//Tour du joueur
+			//Le joueur peut tirer si il n'a pas déjà tirer et que la probabilité est bonne.
+			double rand = Math.random() * listeVaisseauEnnemis.size();
+			if(!aTire && probabiliteTir > rand){
+				// Attaque un ennemie aléatoire
+				System.out.println("Le vaisseau du joueur attaque");
+				listeJoueurs.get(0).getVaisseau().attaque(listeVaisseauEnnemis.get(new Random().nextInt(listeVaisseauEnnemis.size())));
+				aTire = true;
+			}
+			//Augmentation de la probabilité que le joueur tire
+			probabiliteTir ++;
+			
+			//Tour de l'ennemie
+			if(!ennemie.estDetruit())
+			{
+				ennemie.attaque(listeJoueurs.get(0).getVaisseau());
+			}
+		}
+		
+		/*  --------> j'ai commenter le rechargement de bouclier car sinon le jeu boucle à l'infini je n'ai plus le temps de le débuger
+		//Augmentation des boucliers
+		System.out.println("Recharge du bouclier des joueurs");
+		for(Joueur joueur : listeJoueurs){
+			joueur.getVaisseau().rechargeBouclier(2); // la fonction check si il a perdu des pts de boucliers.
+		}
+		System.out.println("Recharge du bouclier des ennemies");
+		for(Vaisseau ennemie : listeVaisseauEnnemis){
+			ennemie.rechargeBouclier(2);
+		}
+		*/
+		
+		suppressionEnnemiesMort(listeVaisseauEnnemis); //Suppresion des morts
+	}
 	
-		
-		for(Vaisseau ennemie: listeVaisseauEnnemis){
-			
-		}
-		
-		for(Joueur joueur: listeJoueurs){
-			
+	
+	
+	
+	//Suprime les énnemies mort de la liste des ennemies
+	public void suppressionEnnemiesMort(ArrayList<Vaisseau> lesEnnemis){
+		for(int i = 0;i<lesEnnemis.size();){
+			if(lesEnnemis.get(i).estDetruit()){
+				System.out.println("Le " + lesEnnemis.get(i).getClass().toString() + " est détruit");
+				lesEnnemis.remove(i);
+			}else
+				i++;
 		}
 	}
 	

@@ -99,8 +99,21 @@ public abstract class Vaisseau {
 		if(this.ptnDeBouclier <=0 && this.ptnDeStructure <= 0){
 			return true;
 		}
+		if(estDetruit){
+			return true;
+		}
 		return false;
 	}
+	
+	public void rechargeBouclier(int recharge){
+		
+		ptnDeBouclier += recharge;
+		
+		if(ptnDeBouclier > ptnDeBouclierMAX) // On ne peux pas avoir des boucliers supérieurs au maximum du bouclier
+			ptnDeBouclier = ptnDeBouclierMAX;
+	}
+	
+	
 	
 	// les getters et setters 
 
