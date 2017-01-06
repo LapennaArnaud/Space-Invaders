@@ -6,11 +6,12 @@ public class Joueur {
 	private String pseudo;
 	private Vaisseau vaisseau;
 	
-	public Joueur(String nom,String prenom,String pseudo){
+	public Joueur(String nom,String prenom,String pseudo) throws ArmurerieException{
 		this.nom=formatage(nom);
 		this.prenom=formatage(prenom);
 		this.pseudo=pseudo;
-		vaisseau = new Vaisseau(600, 200); // initialise le vaisseau type (par défaut 600 structure et 200 armure)  
+		//vaisseau = new Vaisseau(600, 200); // initialise le vaisseau type (par défaut 600 structure et 200 armure)
+		vaisseau = new ViperMKII();
 	}
 	
 	

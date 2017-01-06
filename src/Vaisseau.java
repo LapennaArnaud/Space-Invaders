@@ -1,29 +1,38 @@
 import java.util.ArrayList;
 
-public class Vaisseau {
+public abstract class Vaisseau {
 	
-	private int ptnDeStructureMAX;
-	private int ptnDeBouclierMAX;
+	protected int ptnDeStructureMAX;
+	protected int ptnDeBouclierMAX;
 	
-	private int ptnDeStructure;
-	private int ptnDeBouclier;
+	protected int ptnDeStructure;
+	protected int ptnDeBouclier;
 	
-	private boolean estDetruit=false;
+	protected boolean estDetruit=false;
 	
-	private ArrayList<Arme> listeArmesVaisseau = new ArrayList<Arme>();
+	protected ArrayList<Arme> listeArmesVaisseau = new ArrayList<Arme>();
 	
-	
-	public Vaisseau(int ptnDeStructureMAX,int ptnDeBouclierMAX){
+	public Vaisseau (int ptnDeStructureMAX,int ptnDeBouclierMAX) {
 		this.ptnDeStructureMAX=ptnDeStructureMAX;
 		this.ptnDeBouclierMAX=ptnDeBouclierMAX;
 		ptnDeStructure=ptnDeStructureMAX;
-		ptnDeBouclier=ptnDeBouclierMAX;
+		ptnDeBouclier=ptnDeBouclierMAX;		
 	}
 	
-	public void ajoutArme(Arme arme){
+	public void ajoutArme(Arme arme) throws ArmurerieException{
 		if (listeArmesVaisseau!= null){
-			if (listeArmesVaisseau.size()<3 ){
-				listeArmesVaisseau.add(arme); // faire attention car ici ont peut lui ajouter des armes qui ne sont pas dans l'armurerie ( correction future)
+			if (listeArmesVaisseau.size()< 3 ){	// ici toutes les conditions sont bonnes pour ajouter l'arme
+				
+				try {
+				    if(Armurerie.getInstance().contientArme(arme)) { // on check si elle est bien dans l'armurerie
+				    	listeArmesVaisseau.add(arme);
+				    }else{
+				    	throw new ArmurerieException();
+				    }
+				} catch(ArmurerieException e){
+					e.printStackTrace();
+				}
+								
 			}else{
 				System.out.println("ajout arme impossible : il n'y a plus de place sur le vaisseau");
 			}
@@ -64,11 +73,33 @@ public class Vaisseau {
 		return degatMoy;
 	}
 	
+	public void repartirDegat(int degatDuTir){
+		int difference;
+		if(ptnDeBouclier>0 && ptnDeBouclier>=degatDuTir){
+			ptnDeBouclier-=degatDuTir;
+		}else if (ptnDeBouclier>0 && ptnDeBouclier<degatDuTir){ // ici les dégat sont supérieur au bouclier restant.
+			difference = (degatDuTir-ptnDeBouclier);
+			ptnDeBouclier=0;
+			ptnDeStructure-=difference;
+		}else{
+			ptnDeStructure-=degatDuTir;
+		}
+	}
+	
+	public abstract void attaque(Vaisseau vaisseau);
+	
 	@Override
 	public String toString(){  // permet d'afficher les infos du vaisseau( utile pour la classe space invaders)
 		String infoVaisseau="";
 		infoVaisseau="Pts de structure Max: "+ptnDeStructureMAX+" Pts de bouclier: "+ptnDeBouclierMAX+" Dégat moyen : "+calculTotDegatMOY();
 		return infoVaisseau;
+	}
+	
+	public boolean estDetruit(){
+		if(this.ptnDeBouclier <=0 && this.ptnDeStructure <= 0){
+			return true;
+		}
+		return false;
 	}
 	
 	// les getters et setters 
@@ -129,18 +160,6 @@ public class Vaisseau {
 	public void setListeArmesVaisseau(ArrayList<Arme> listeArmesVaisseau) {
 		this.listeArmesVaisseau = listeArmesVaisseau;
 	}
-	
-	
-	
-	
-	//j'ai mal lu le sujet et j'ai commencé a coder la fonction non demandé encore
-	/**public boolean estDetruit(){
-		if(this.ptnDeBouclier && this.ptnDeStructure <= 0){
-			return true;
-		}
-		return false;
-	}*/
-	
-	
+
 	
 }

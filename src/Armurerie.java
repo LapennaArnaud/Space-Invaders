@@ -1,21 +1,24 @@
 import java.util.ArrayList;
 
 public class Armurerie {
-
+	
+	private static Armurerie instanceArmurerie;
 	private ArrayList<Arme> listeArmes = new ArrayList<Arme>();
 	
-	public Armurerie(){
+	private Armurerie(){
 		init(); // initialise l'armurierie
 	}
 	
 	public void init(){
-		Arme bazooka = new Arme("bazooka", 40, 99, Type.Explosif);
-		Arme tourelle = new Arme("tourelle",18,45,Type.Direct);
-		Arme missile = new Arme("missile",28,66,Type.Guide);
-		
-		listeArmes.add(bazooka);
-		listeArmes.add(tourelle);
-		listeArmes.add(missile);
+				
+		listeArmes.add(new Arme("bazooka", 40, 99, Type.Explosif,3));
+		listeArmes.add(new Arme("tourelle",18,45,Type.Direct,1));
+		listeArmes.add(new Arme("laser",2,3,Type.Direct,1));
+		listeArmes.add(new Arme("hammer",1,8,Type.Explosif,1.5));
+		listeArmes.add(new Arme("torpille",3,3,Type.Guide,2));
+		listeArmes.add(new Arme("mitrailleuse",2,3,Type.Direct,1));
+		listeArmes.add(new Arme("emg",1,7,Type.Explosif,1.5));
+		listeArmes.add(new Arme("missile",4,100,Type.Guide,4));
 	}
 
 	public ArrayList<Arme> getListeArmes() {
@@ -55,6 +58,21 @@ public class Armurerie {
 	
 	public boolean contientArme(Arme a){
 		return (listeArmes.contains(a));
+	}
+	
+	public Arme getArme(String nomArme) throws ArmurerieException { // pour rechercher une arme avec son nom
+		for(Arme arme : this.listeArmes){
+			if(arme.getNom() == nomArme)
+				return arme;
+		}
+		throw new ArmurerieException();
+	}
+	
+	public static Armurerie getInstance(){
+		if(instanceArmurerie==null){
+			instanceArmurerie=new Armurerie();
+		}
+		return instanceArmurerie;
 	}
 	
 }

@@ -3,18 +3,22 @@ import java.util.ArrayList;
 public class SpaceInvaders {
 
 	private ArrayList<Joueur> listeJoueurs = new ArrayList<Joueur>();
-	private static Armurerie armurerie = new Armurerie();
+	private ArrayList<Vaisseau> listeVaisseauEnnemis = new ArrayList<Vaisseau>();
 	
 	
 	
-	public SpaceInvaders(){
+	public SpaceInvaders() throws ArmurerieException{
 		init();
 	}
 	
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ArmurerieException {
 		SpaceInvaders spaceInvaders = new SpaceInvaders();
+		Armurerie armurerie = Armurerie.getInstance(); // pour éviter de marquer le getInstance() à chaque fois dans le main
+		
+		
+		 
 		
 		// affichage des joueurs
 		System.out.println("\nListe des joueurs :");
@@ -26,16 +30,9 @@ public class SpaceInvaders {
 		System.out.println("\nListe des armes de l'armurerie :");
 		armurerie.afficherLesArmes();
 		
-		//on créer un vaisseau spécifique et on l'affecte à un joueur
-		Vaisseau vaisseuDeOuf = new  Vaisseau(1800, 680);
-		spaceInvaders.listeJoueurs.get(1).setVaisseau(vaisseuDeOuf);
-		
 		//on ajoute des armes aux vaisseaux... ( un vaisseau doit-il avoir une arme de base ?)
 		spaceInvaders.listeJoueurs.get(0).getVaisseau().ajoutArme(armurerie.getListeArmes().get(1));
-		spaceInvaders.listeJoueurs.get(1).getVaisseau().ajoutArme(armurerie.getListeArmes().get(2));
 		
-		spaceInvaders.listeJoueurs.get(2).getVaisseau().ajoutArme(armurerie.getListeArmes().get(0));
-		spaceInvaders.listeJoueurs.get(2).getVaisseau().ajoutArme(armurerie.getListeArmes().get(1));
 
 
 		
@@ -51,25 +48,13 @@ public class SpaceInvaders {
 		}
 		
 		
-		//////////
-		// je n'ai pas eu le temps d'ajouter des armes au vaisseau des joueurs ( par défaut ils n'ont pas d'armes) donc 0 total dégat
-		// il y a aussi plusieurs toString que j'ai codé et dont je n'ai pas eu le temps d'utiliser dans le main.
-		///////
+		/*
+		 * 
+		 * ici on va faire la partie 4 du TP2 ( le dessus était pour tester les méthodes des classes du TP1)
+		 * 
+		 * 
+		 */
 		
-		// test Armurerie Exception
-		try {
-			Arme armeTest = new Arme("rockcat", 8, 88, Type.Explosif);
-		    if(armurerie.contientArme(armeTest))
-		    {
-		    	spaceInvaders.listeJoueurs.get(2).getVaisseau().ajoutArme(armeTest);
-		    }
-		    else
-		    {
-		    	throw new ArmurerieException();
-		    }
-		} catch(ArmurerieException e){
-			e.printStackTrace();
-		}
 		
 		
 	}
@@ -77,14 +62,38 @@ public class SpaceInvaders {
 	
 	
 	
-	private void init(){
+	private void init() throws ArmurerieException{
 		Joueur j1 = new Joueur("groll", "julien", "nomtroswag");
-		Joueur j2 = new Joueur("lapenna", "arnaud", "arnotos");
-		Joueur j3 = new Joueur("muller", "william", "uliak");
+		//Joueur j2 = new Joueur("lapenna", "arnaud", "arnotos");
+		//Joueur j3 = new Joueur("muller", "william", "uliak");
 		
 		listeJoueurs.add(j1);
-		listeJoueurs.add(j2);
-		listeJoueurs.add(j3);
+		//listeJoueurs.add(j2);
+		//listeJoueurs.add(j3);
+		
+		// on charge la liste des vaisseaux ennemis avec chacun des vaisseaux. le viper est le vaisseau du joueur donc pas un vaisseau enemie
+		listeVaisseauEnnemis.add(new Dart());
+		listeVaisseauEnnemis.add(new Slavel());
+		listeVaisseauEnnemis.add(new Alkesh());
+		listeVaisseauEnnemis.add(new Tardis());
+		listeVaisseauEnnemis.add(new Assault());
 	}
+	
+	public void tour(){
+		for(Vaisseau ennemie: listeVaisseauEnnemis){
+			ennemie.attaque(listeJoueurs.get(0).getVaisseau());//on attaque le seul joueur du jeu ici
+		}
+		listeJoueurs.get(0).getVaisseau().attaque(listeVaisseauEnnemis.get((int)(Math.random()*(listeVaisseauEnnemis.size()))));
+	
+		
+		for(Vaisseau ennemie: listeVaisseauEnnemis){
+			
+		}
+		
+		for(Joueur joueur: listeJoueurs){
+			
+		}
+	}
+	
 	
 }
