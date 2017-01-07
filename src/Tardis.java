@@ -21,7 +21,7 @@ public class Tardis extends Vaisseau implements IAptitude{
 		int index2 = rand.nextInt(lesVaisseaux.size());
 		
 		System.out.println("Le tardis échange le vaiseau à la place " + index1 + " avec le vaisseau à la place " +index2);
-
+		System.out.println(lesVaisseaux.get(index1).getClass()+" <=> " +lesVaisseaux.get(index2).getClass());
 		Vaisseau vaisseau = lesVaisseaux.get(index1); // change les positions des deux vaisseaux
 		lesVaisseaux.set(index1, lesVaisseaux.get(index2));
 		lesVaisseaux.set(index2, vaisseau);

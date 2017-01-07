@@ -63,6 +63,10 @@ public class Arme {
 		return degat;
 	}
 	
+	public void rechargeUnTour(){ // utilisé pour décrémenter un tour dans la boucle tour du jeu space invader ( si on n'utilise pas la fonction tir() d'une arme elle ne se recharge jamais)
+		compteutToursRecharge--;
+	}
+	
 	@Override
 	public String toString(){  // permet d'afficher les infos de l'arme ( utilie pour la classe vaisseau)
 		String infoArme="";

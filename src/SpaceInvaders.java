@@ -103,6 +103,8 @@ public class SpaceInvaders {
 	}
 	
 	public void tour(){
+		System.out.println("Points de vie du joueur (pt structure | pr bouclier): " + listeJoueurs.get(0).getVaisseau().getPtnDeStructure()+"|"+listeJoueurs.get(0).getVaisseau().getPtnDeBouclier());
+		System.out.println("Nombre d'ennemis restants : "+listeVaisseauEnnemis.size());
 		
 		for(Vaisseau ennemie : listeVaisseauEnnemis){ // utilisation des comptétences des vaisseaux
 			if(ennemie instanceof IAptitude){
@@ -135,7 +137,7 @@ public class SpaceInvaders {
 			}
 		}
 		
-		/*  --------> j'ai commenter le rechargement de bouclier car sinon le jeu boucle à l'infini je n'ai plus le temps de le débuger
+		
 		//Augmentation des boucliers
 		System.out.println("Recharge du bouclier des joueurs");
 		for(Joueur joueur : listeJoueurs){
@@ -143,11 +145,21 @@ public class SpaceInvaders {
 		}
 		System.out.println("Recharge du bouclier des ennemies");
 		for(Vaisseau ennemie : listeVaisseauEnnemis){
-			ennemie.rechargeBouclier(2);
+			ennemie.rechargeBouclier(1);
 		}
-		*/
+		
 		
 		suppressionEnnemiesMort(listeVaisseauEnnemis); //Suppresion des morts
+		
+		/*
+		//info sur le vaisseau slavel affiché car il nous pose problème
+		for(Vaisseau vaisseau : listeVaisseauEnnemis){
+			if(vaisseau.getClass()==Slavel.class){
+				System.out.println("info sur le vaisseau Slavel : ");
+				System.out.println(vaisseau.getPtnDeStructure()+" : "+vaisseau.getPtnDeBouclier());
+			}
+		}
+		*/
 	}
 	
 	

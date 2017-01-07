@@ -106,11 +106,12 @@ public abstract class Vaisseau {
 	}
 	
 	public void rechargeBouclier(int recharge){
-		
-		ptnDeBouclier += recharge;
-		
-		if(ptnDeBouclier > ptnDeBouclierMAX) // On ne peux pas avoir des boucliers supérieurs au maximum du bouclier
+		if(!estDetruit()){
+			ptnDeBouclier += recharge;
+		}
+		if(ptnDeBouclier > ptnDeBouclierMAX){ // On ne peux pas avoir des boucliers supérieurs au maximum du bouclier
 			ptnDeBouclier = ptnDeBouclierMAX;
+		}
 	}
 	
 	
